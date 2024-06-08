@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,10 +28,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
+    'modeltranslation',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,13 +46,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'drf_spectacular',
     'apps.menu',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -69,6 +80,17 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API для сайта Boho',
+    'DESCRIPTION': 'Здесь все апишки для проекта',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -106,21 +128,121 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
+LANGUAGES = [
+    ('ru', _('Russian')),
+    ('en', _('English')),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+JAZZMIN_SETTINGS = {
+    "site_title":
+    "URFA",  # Заголовок админ-панели
+    "site_header":
+    "URFA",  # Заголовок на экране входа
+    "site_brand":
+    "Администрация сайта",  # Бренд в верхней части админ-панели
+    "welcome_sign":
+    "Добро пожаловать в URFA",  # Приветственное сообщение
+
+    # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
+    "site_icon":
+    None,
+
+    # "topmenu_links": [
+    #     {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+    # ],
+    "show_sidebar":
+    True,
+    "changeform_format":
+    "horizontal_tabs",
+    "header_classes":
+    "navbar-dark bg-dark",  # Темный фон верхней части админ-панели
+    "header_color":
+    "#000000",  # Черный цвет верхней части админ-панели
+    "dark_mode_theme":
+    True,  # Включить темный режим
+    "show_language_chooser":
+    True,  # Включить выбор языка в админ-панели
+    "custom_css":
+    None,  # Путь к пользовательскому CSS-файлу (если нужен)
+    "show_ui_builder":
+    True,  # Показать UI Builder
+    "menu": [
+        {
+            "app":
+            "index",  # Имя вашего приложения Django
+            "name":
+            "Основные параметры",  # Имя модели
+            "icon":
+            "fa fa-cogs",  # Иконка для меню
+            "models": [
+                {
+                    "name": "Первая модель",  # Имя вашей модели
+                    "icon": "fa fa-cog",  # Иконка для модели
+                    "model":
+                    "index.Settings",  # Имя модели в формате "app_label.model_name"
+                },
+                # Добавьте другие модели, если необходимо
+            ],
+        },
+        # Добавьте другие приложения и модели, если необходимо
+    ],
+}
+
+# Выбрал только то что мне понравилось если что можем поменять тему
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": True,
+    "brand_small_text": False,
+    "brand_colour": False,
+    "accent": "accent-primary",
+    "navbar": "navbar-dark",
+    "no_navbar_border": True,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": True,
+    "theme": "cyborg",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    "actions_sticky_top": True
+}
