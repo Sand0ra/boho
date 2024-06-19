@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
 class MenuCategory(models.Model):
     title = models.CharField(
         max_length=90,
@@ -9,8 +10,8 @@ class MenuCategory(models.Model):
         verbose_name=_("Название")
     )
 
-    # def __str__(self):
-        # return self.title
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = _("Категория меню")
@@ -103,3 +104,29 @@ class PositionOption(models.Model):
     class Meta:
         verbose_name = _("Опция позиции")
         verbose_name_plural = _("Опции позиции")
+
+
+class Event(models.Model):
+    title = models.CharField(
+        max_length=90,
+        null=True,
+        blank=True,
+        verbose_name=_("Название")
+    )
+    image = models.ImageField(
+        null=True,
+        blank=True,
+        verbose_name=_("Изображение"),
+        upload_to=_("events_img/"))
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_("Описание")
+    )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _("Мероприятия")
+        verbose_name_plural = _("Мероприятии")

@@ -7,6 +7,8 @@ db.sqlite3
 .env
 .idea
 **/__pycache__/
+config/__pycache__/
+__pycache__/
 venv
 media/
 /info.log
@@ -18,3 +20,4 @@ media/
 /backend/logs/info.log
 /backend/logs/warning.log
 /.venv/
+/apps/menu/migrations/0001_initial.py

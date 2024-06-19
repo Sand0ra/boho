@@ -1,5 +1,5 @@
 from modeltranslation.translator import TranslationOptions, register
-from .models import MenuCategory, MenuSubCategory, MenuPosition, PositionOption
+from .models import MenuCategory, MenuSubCategory, MenuPosition, PositionOption, Event
 
 
 @register(MenuCategory)
@@ -20,3 +20,8 @@ class MenuPositionTranslationOptions(TranslationOptions):
 @register(PositionOption)
 class PositionOptionTranslationOptions(TranslationOptions):
     fields = ('option_type', )
+
+
+@register(Event)
+class EventTranslationOptions(TranslationOptions):
+    fields = ('title', 'description')
