@@ -10,9 +10,9 @@ services:
       - static_volume:/usr/src/app/back_static
       - media_volume:/usr/src/app/back_media
     restart: always
-    command: sh -c "gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
-      - db
+      - pgdb
 
   nginx:
     image: nginx
@@ -21,13 +21,13 @@ services:
       - "443:443"
     volumes:
       - ./nginx/nginx-prod.conf:/etc/nginx/nginx.conf
-      - static_volume:/usr/src/app/back-static
-      - media_volume:/usr/src/app/back-media
+      - static_volume:/usr/src/app/back_static
+      - media_volume:/usr/src/app/back_media
       - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
       - django
 
-  db:
+  pgdb:
     image: postgres
     container_name: postgres
     environment:

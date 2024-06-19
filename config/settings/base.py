@@ -238,6 +238,18 @@ if DEBUG:
 
 if PRODUCTION:
     from .prod import *
+    INSTALLED_APPS += [
+        'drf_spectacular',
+    ]
+
+    REST_FRAMEWORK['DEFAULT_SCHEMA_CLASS'] = 'drf_spectacular.openapi.AutoSchema'
+
+    SPECTACULAR_SETTINGS = {
+        'TITLE': 'BOHO-API',
+        'DESCRIPTION': 'Это API нашего проекта BOHO beach bar',
+        'VERSION': '1.0.0',
+        'OPENAPI_VERSION': '3.0.0',
+    }
 else:
     from .locale import *
     INSTALLED_APPS += [
