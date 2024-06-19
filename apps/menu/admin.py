@@ -1,17 +1,10 @@
 from django.contrib import admin
 from .models import MenuCategory, MenuSubCategory, MenuPosition, PositionOption, Event
+from modeltranslation.admin import TabbedTranslationAdmin, TranslationTabularInline
 
 
 @admin.register(MenuCategory)
-class MenuCategoryAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Русский перевод', {
-            'fields': ['title',]
-        }),
-        ('Английский перевод', {
-            'fields': ['title_en', ]
-        }),
-    ]
+class MenuCategoryAdmin(TabbedTranslationAdmin):
 
     list_display = ('id', 'title',)
     list_display_links = ('id', 'title',)
@@ -19,54 +12,29 @@ class MenuCategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(MenuSubCategory)
-class MenuSubCategoryAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Русский перевод', {
-            'fields': ['category', 'title',]
-        }),
-        ('Английский перевод', {
-            'fields': ['title_en', ]
-        }),
-    ]
-
+class MenuSubCategoryAdmin(TabbedTranslationAdmin):
     list_display = ('id', 'title', 'category')
     list_display_links = ('id', 'title',)
     ordering = ('id', )
 
 
-class PositionOptionInline(admin.TabularInline):
-    fields = ('option_type_ru', 'option_type_en', 'price')
+class PositionOptionInline(TranslationTabularInline):
     model = PositionOption
+
+    def get_max_num(self, request, obj=None, **kwargs):
+        return 2
 
 
 @admin.register(MenuPosition)
-class MenuPositionAdmin(admin.ModelAdmin):
+class MenuPositionAdmin(TabbedTranslationAdmin):
     inlines = [PositionOptionInline]
-    fieldsets = [
-        ('Русский перевод', {
-            'fields': ['subcategory', 'title', 'image', 'price', 'note', 'ingredient']
-        }),
-        ('Английский перевод', {
-            'fields': ['title_en', 'note_en', 'ingredient_en']
-        }),
-    ]
-
     list_display = ('id', 'title', 'subcategory')
     list_display_links = ('id', 'title',)
     ordering = ('id', )
 
 
 @admin.register(Event)
-class EventsAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Русский перевод', {
-            'fields': ['title', 'image', 'description']
-        }),
-        ('Английский перевод', {
-            'fields': ['title_en', 'description_en']
-        }),
-    ]
-
+class EventsAdmin(TabbedTranslationAdmin):
     list_display = ('id', 'title',)
     list_display_links = ('id', 'title',)
     ordering = ('id', )
