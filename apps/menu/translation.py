@@ -1,5 +1,5 @@
 from modeltranslation.translator import TranslationOptions, register
-from .models import MenuCategory, MenuSubCategory, MenuPosition, PositionOption, Event
+from .models import MenuCategory, MenuSubCategory, MenuPosition, PositionOption, Event, Chart
 
 
 @register(MenuCategory)
@@ -25,3 +25,8 @@ class PositionOptionTranslationOptions(TranslationOptions):
 @register(Event)
 class EventTranslationOptions(TranslationOptions):
     fields = ('title', 'description')
+
+
+@register(Chart)
+class ChartTranslationOptions(TranslationOptions):
+    fields = ('day', )

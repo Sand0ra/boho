@@ -128,5 +128,17 @@ class Event(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = _("Мероприятия")
-        verbose_name_plural = _("Мероприятии")
+        verbose_name = _("Мероприятие")
+        verbose_name_plural = _("Мероприятия")
+
+
+class Chart(models.Model):
+    day = models.CharField(_("день-недели"), max_length=255, null=True, blank=True)
+    hour = models.CharField(_("часы работы"), max_length=255, null=True, blank=True)
+    
+    def __str__(self):
+        return self.day
+
+    class Meta:
+        verbose_name = _("График")
+        verbose_name_plural = _("График")

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import MenuCategory, MenuSubCategory, MenuPosition, PositionOption, Event
+from .models import MenuCategory, MenuSubCategory, MenuPosition, PositionOption, Event, Chart
 
 
 class PositionOptionSerializer(serializers.ModelSerializer):
@@ -43,3 +43,9 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'title', 'image', 'description')
+
+
+class ChartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chart
+        fields = ('id', 'day', 'hour')
