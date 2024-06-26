@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     'jazzmin',
     'modeltranslation',
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -127,8 +129,8 @@ LANGUAGES = [
 STATIC_URL = '/back_static/'
 STATIC_ROOT = BASE_DIR / 'back_static'
 
-MEDIA_URL = '/back-media/'
-MEDIA_ROOT = BASE_DIR / 'back-media'
+MEDIA_URL = '/back_media/'
+MEDIA_ROOT = BASE_DIR / 'back_media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -169,26 +171,13 @@ JAZZMIN_SETTINGS = {
     None,  # Путь к пользовательскому CSS-файлу (если нужен)
     "show_ui_builder":
     True,  # Показать UI Builder
-    "menu": [
-        {
-            "app":
-            "index",  # Имя вашего приложения Django
-            "name":
-            "Основные параметры",  # Имя модели
-            "icon":
-            "fa fa-cogs",  # Иконка для меню
-            "models": [
-                {
-                    "name": "Первая модель",  # Имя вашей модели
-                    "icon": "fa fa-cog",  # Иконка для модели
-                    "model":
-                    "index.Settings",  # Имя модели в формате "app_label.model_name"
-                },
-                # Добавьте другие модели, если необходимо
-            ],
-        },
-        # Добавьте другие приложения и модели, если необходимо
-    ],
+    "icons": {
+        "menu.Chart": "fas fa-regular fa-clock",
+        "menu.Event": "fas fa-calendar-alt",
+        "menu.MenuCategory": "fas fa-clipboard-list",
+        "menu.MenuSubCategory": "fas fa-list-alt",
+        "menu.MenuPosition": "fas fa-utensils"
+    }
 }
 
 # Выбрал только то что мне понравилось если что можем поменять тему
