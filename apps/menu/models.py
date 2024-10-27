@@ -18,17 +18,10 @@ class MenuCategory(models.Model):
         verbose_name_plural = _("Категории меню")
 
 
-class MenuSubCategory(models.Model):
-    category = models.ForeignKey(
-        to=MenuCategory,
-        on_delete=models.DO_NOTHING,
-        related_name='category_rel',
-        verbose_name=_("Категория")
-    )
+
+class DishesCategory(models.Model):
     title = models.CharField(
         max_length=90,
-        null=True,
-        blank=True,
         verbose_name=_("Название")
     )
 
@@ -36,16 +29,25 @@ class MenuSubCategory(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = _("Подкатегория меню")
-        verbose_name_plural = _("Подкатегории меню")
+        verbose_name = _("Категория блюда")
+        verbose_name_plural = _("Категории блюд")
+
 
 
 class MenuPosition(models.Model):
-    subcategory = models.ForeignKey(
-        to=MenuSubCategory,
+    category = models.ForeignKey(
+        to=MenuCategory,
         on_delete=models.DO_NOTHING,
-        related_name='subcategory_rel',
-        verbose_name=_("Подкатегория")
+        null=True, blank=True,
+        related_name='positions',
+        verbose_name=_("Категории")
+    )
+    dishes = models.ForeignKey(
+        to=DishesCategory,
+        on_delete=models.DO_NOTHING,
+        null=True, blank=True,
+        related_name='positions',
+        verbose_name=_("Блюда")
     )
     title = models.CharField(
         max_length=90,
@@ -64,13 +66,8 @@ class MenuPosition(models.Model):
         blank=True,
         verbose_name=_("Цена")
     )
-    note = models.TextField(
-        _("Примечание"),
-        null=True,
-        blank=True
-    )
-    ingredient = models.TextField(
-        _("Ингредиенты"),
+    description = models.TextField(
+        _("Описание"),
         null=True,
         blank=True
     )
@@ -81,64 +78,3 @@ class MenuPosition(models.Model):
     class Meta:
         verbose_name = _("Позиция меню")
         verbose_name_plural = _("Позиции меню")
-
-
-class PositionOption(models.Model):
-    menu_position = models.ForeignKey(
-        MenuPosition,
-        on_delete=models.CASCADE,
-        related_name='options',
-        verbose_name=_("Позиция меню")
-    )
-    option_type = models.CharField(
-        max_length=50,
-        verbose_name=_("Тип опции")
-    )
-    price = models.IntegerField(
-        verbose_name=_("Цена")
-    )
-
-    def __str__(self):
-        return f"{self.menu_position.title} - {self.option_type}"
-
-    class Meta:
-        verbose_name = _("Опция позиции")
-        verbose_name_plural = _("Опции позиции")
-
-
-class Event(models.Model):
-    title = models.CharField(
-        max_length=90,
-        null=True,
-        blank=True,
-        verbose_name=_("Название")
-    )
-    image = models.ImageField(
-        null=True,
-        blank=True,
-        verbose_name=_("Изображение"),
-        upload_to=_("events_img/"))
-    description = models.TextField(
-        null=True,
-        blank=True,
-        verbose_name=_("Описание")
-    )
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = _("Мероприятие")
-        verbose_name_plural = _("Мероприятия")
-
-
-class Chart(models.Model):
-    day = models.CharField(_("день-недели"), max_length=255, null=True, blank=True)
-    hour = models.CharField(_("часы работы"), max_length=255, null=True, blank=True)
-    
-    def __str__(self):
-        return self.day
-
-    class Meta:
-        verbose_name = _("График")
-        verbose_name_plural = _("График")

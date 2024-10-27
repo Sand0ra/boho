@@ -1,51 +1,33 @@
 from rest_framework import serializers
-from .models import MenuCategory, MenuSubCategory, MenuPosition, PositionOption, Event, Chart
-
-
-class PositionOptionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PositionOption
-        fields = ['id', 'option_type', 'price']
+from .models import DishesCategory, MenuCategory, MenuPosition
 
 
 class MenuPositionSerializer(serializers.ModelSerializer):
-    options = PositionOptionSerializer(read_only=True, many=True)
 
     class Meta:
         model = MenuPosition
-        # fields = ['id', 'title', 'image', 'price', 'note', 'ingredient', 'options']
-        fields = '__all__'
+        fields = ['id', 'title', 'image', 'price', 'description',]
 
-
-class MenuSubCategorySerializer(serializers.ModelSerializer):
-    subcategory_rel = MenuPositionSerializer(read_only=True, many=True)
-
-    class Meta:
-        model = MenuSubCategory
-        fields = ('id', 'title', 'subcategory_rel')
-
-
-class MenuSubCategoryListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MenuSubCategory
-        fields = ('id', 'title',)
 
 
 class MenuCategorySerializer(serializers.ModelSerializer):
-    category_rel = MenuSubCategoryListSerializer(read_only=True, many=True)
+    positions = MenuPositionSerializer(many=True)
 
     class Meta:
         model = MenuCategory
-        fields = ('id', 'title', 'category_rel')
+        fields = ('id', 'title', 'positions')
 
 
-class EventSerializer(serializers.ModelSerializer):
+class MenuCategoryListSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = Event
-        fields = ('id', 'title', 'image', 'description')
+        model = MenuCategory
+        fields = ('id', 'title',)
 
 
-class ChartSerializer(serializers.ModelSerializer):
+class DishesCategorySerializer(serializers.ModelSerializer):
+    positions = MenuPositionSerializer(many=True)
+
     class Meta:
-        model = Chart
-        fields = ('id', 'day', 'hour')
+        model = DishesCategory
+        fields = ('id', 'title', 'positions')

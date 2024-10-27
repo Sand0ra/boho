@@ -1,17 +1,16 @@
 from rest_framework import generics
-from .models import MenuCategory, MenuSubCategory, MenuPosition, Event, Chart
-from .serializers import MenuCategorySerializer, MenuSubCategorySerializer, MenuPositionSerializer, EventSerializer, \
-    ChartSerializer
+from .models import DishesCategory, MenuCategory, MenuPosition
+from .serializers import DishesCategorySerializer, MenuCategoryListSerializer, MenuCategorySerializer, MenuPositionSerializer
 
 
 class MenuCategoryListView(generics.ListAPIView):
     queryset = MenuCategory.objects.all()
+    serializer_class = MenuCategoryListSerializer
+
+
+class MenuCategoryView(generics.RetrieveAPIView):
+    queryset = MenuCategory.objects.all()
     serializer_class = MenuCategorySerializer
-
-
-class MenuSubCategoryListView(generics.ListAPIView):
-    queryset = MenuSubCategory.objects.all()
-    serializer_class = MenuSubCategorySerializer
 
 
 class MenuPositionDetailView(generics.RetrieveAPIView):
@@ -19,11 +18,6 @@ class MenuPositionDetailView(generics.RetrieveAPIView):
     serializer_class = MenuPositionSerializer
 
 
-class EventListView(generics.ListAPIView):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-
-
-class ChartListView(generics.ListAPIView):
-    queryset = Chart.objects.all()
-    serializer_class = ChartSerializer
+class DishesCategoryListView(generics.ListAPIView):
+    queryset = DishesCategory.objects.all()
+    serializer_class = DishesCategorySerializer

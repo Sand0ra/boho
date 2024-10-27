@@ -124,6 +124,7 @@ USE_TZ = True
 LANGUAGES = [
     ('ru', _('Russian')),
     ('en', _('English')),
+    ('tr', _('Turkish'))
 ]
 
 STATIC_URL = '/back_static/'
