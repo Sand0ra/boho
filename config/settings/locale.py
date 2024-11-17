@@ -1,8 +1,8 @@
 
-STATIC_URL = '/back-static/'
+STATIC_URL = '/back_static/'
 STATIC_ROOT = '/usr/src/app/back_static/'
 
-MEDIA_URL = '/back-media/'
+MEDIA_URL = '/back_media/'
 MEDIA_ROOT = '/usr/src/app/back_media/'
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost", "http://localhost:80"]

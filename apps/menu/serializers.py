@@ -15,14 +15,14 @@ class MenuCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MenuCategory
-        fields = ('id', 'title', 'positions')
+        fields = ('id', 'title', 'image', 'positions')
 
 
 class MenuCategoryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MenuCategory
-        fields = ('id', 'title',)
+        fields = ('id', 'title','image')
 
 
 class DishesCategorySerializer(serializers.ModelSerializer):

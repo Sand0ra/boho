@@ -9,7 +9,12 @@ class MenuCategory(models.Model):
         blank=True,
         verbose_name=_("Название")
     )
-
+    image = models.ImageField(
+        null=True,
+        blank=True,
+        verbose_name=_("�xзоб�`ажение"),
+        upload_to=_("menu_img/")
+    )
     def __str__(self):
         return self.title
 
